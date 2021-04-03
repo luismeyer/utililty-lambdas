@@ -1,0 +1,31 @@
+service: pdf-lambda
+frameworkVersion: '2'
+
+provider:
+  lambdaHashingVersion: 20201221
+  name: aws
+  runtime: nodejs12.x
+  region: eu-central-1
+  apiGateway:
+    shouldStartNameWithService: true
+    binaryMediaTypes:
+      - "*/*"
+
+plugins:
+  - serverless-offline
+
+package:
+  patterns:
+    - '!./**'
+    - ./node_modules/**
+    - ./src/**
+
+functions:
+  api:
+    handler: src/handlers.api
+    events:
+      - http:
+          path: pdf
+          method: ANY
+          cors: true
+

@@ -1,0 +1,20 @@
+{
+  "name": "pdf-lambda",
+  "version": "1.0.0",
+  "description": "Pdf Generator Lambda for Html File",
+  "main": "index.js",
+  "scripts": {
+    "dev": "sls offline"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chrome-aws-lambda": "^5.3.0",
+    "chromium": "^3.0.2",
+    "node-fetch": "^2.6.1",
+    "puppeteer-core": "^5.3.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^6.7.0"
+  }
+}

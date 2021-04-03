@@ -1,0 +1,37 @@
+service: email-lambda
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  region: eu-central-1
+  apiGateway:
+    shouldStartNameWithService: true
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - ses:SendEmail
+            - ses:SendRawEmail
+          Resource: 
+            - "arn:aws:ses:${self:provider.region}:*:*"
+
+package:
+  patterns:
+    - '!/**'
+    - dist/**
+    - node_modules/**
+
+plugins:
+  - serverless-offline
+
+functions:
+  api:
+    handler: dist/api.handler
+    events:
+      - http:
+          path: email
+          method: any
+          cors: true
