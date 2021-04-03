@@ -1,21 +1,11 @@
 "use strict";
 const awsChromium = require("chrome-aws-lambda");
-const chromium = require("chromium");
 
 const { atob, btoa } = require("./utils");
-
-const { IS_OFFLINE } = process.env;
 
 const DEFAULT_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Credentials": true,
-};
-
-const installChromium = () => {
-  if (chromium.path) return;
-
-  console.info("Installing chrome...");
-  return chromium.install();
 };
 
 const getHtmlInput = ({ body, queryStringParameters, isBase64Encoded }) => {
@@ -42,19 +32,11 @@ module.exports.api = async (event) => {
     };
   }
 
-  if (IS_OFFLINE) {
-    await installChromium();
-  }
-
-  const executablePath = IS_OFFLINE
-    ? chromium.path
-    : await awsChromium.executablePath;
-
   const browser = await awsChromium.puppeteer.launch({
     args: awsChromium.args,
     defaultViewport: awsChromium.defaultViewport,
-    executablePath,
-    headless: awsChromium.headless,
+    executablePath: await awsChromium.executablePath,
+    headless: true,
   });
 
   try {

@@ -20,9 +20,9 @@ provider:
 
 package:
   patterns:
-    - '!/**'
-    - dist/**
-    - node_modules/**
+    - '!./**'
+    - ./dist/**
+    - ./node_modules/**
 
 plugins:
   - serverless-offline
