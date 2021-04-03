@@ -21,8 +21,7 @@ provider:
 package:
   patterns:
     - '!./**'
-    - ./dist/**
-    - ./node_modules/**
+    - './dist/**'
 
 plugins:
   - serverless-offline
