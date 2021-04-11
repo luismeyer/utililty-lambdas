@@ -1,0 +1,42 @@
+service: react-lambda
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  region: eu-central-1
+  apiGateway:
+    shouldStartNameWithService: true
+    binaryMediaTypes:
+      - "*/*"
+
+package:
+  patterns:
+    - '!./**'
+    - './dist/**'
+    - './client-dist/**'
+    - ./node_modules/**
+  scripts: 
+    - yarn autoclean --init
+    - yarn autoclean --force
+
+plugins:
+  - serverless-offline
+
+functions:
+  api:
+    handler: dist/handlers/index.handleRequest
+    events:
+      - http:
+          path: react
+          method: any
+          cors: true
+
+  assets:
+    handler: dist/handlers/assets.handleRequest
+    events:
+      - http:
+          path: assets/{proxy}
+          method: any
+          cors: true

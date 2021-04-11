@@ -10,6 +10,14 @@ Setup dependencies:
 yarn
 ```
 
+## Development
+
+Start the serverless offline server
+
+```bash
+yarn dev
+```
+
 ## Usage
 
 Send a POST Request to the Lambda using a body like this:
