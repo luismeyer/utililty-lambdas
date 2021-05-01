@@ -2,13 +2,14 @@ import { APIGatewayProxyHandler } from "aws-lambda";
 import { readFileSync } from "fs";
 import ReactServerDOM from "react-dom/server";
 import { resolve } from "path";
-import { App } from "../app";
+import { App } from "../app/components/app";
 import { clientOutDir } from "../config.json";
+import { ServerStyleSheet } from "styled-components";
+
+const styleSheed = new ServerStyleSheet();
 
 export const handleRequest: APIGatewayProxyHandler = async () => {
-  console.log("start");
-
-  const app = ReactServerDOM.renderToString(<App />);
+  const app = ReactServerDOM.renderToString(styleSheed.collectStyles(<App />));
 
   const indexFile = readFileSync(
     resolve(__dirname, `../../${clientOutDir}/index.html`)
@@ -16,7 +17,7 @@ export const handleRequest: APIGatewayProxyHandler = async () => {
 
   const html = indexFile.replace(
     '<div id="root"></div>',
-    `<div id="root">${app}</div>`
+    `<div id="root">${app}</div>${styleSheed.getStyleTags()}`
   );
 
   return {
